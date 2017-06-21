@@ -1,0 +1,3 @@
+1#fsa.8a18634#18634#fsa1997020793/PP#018564#LC-USF33- 006615-M4 [P&P]#006615#/home/ronakshah/EXTRACTS_sample/SampleImages-209/fsa1997020793.PP_large.jpg#/oasis/projects/nsf/vlp101/sandeeps/complete_fsa_owi_data/186/fsa1997018564.PP.json#//hdl.loc.gov/loc.pnp/fsa.8a18634
+2#
+num # resid # prev index # itemid # id2use # callstr # callnum # jpg file path # metadata file path #  furl
