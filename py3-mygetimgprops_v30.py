@@ -11,8 +11,9 @@ import glob
 import itertools
 import numpy as np
 import cv2
-
+from collections import Counter
 import json
+
 def cropBlack(img):
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     _,thresh = cv2.threshold(gray,1,255,cv2.THRESH_BINARY)
@@ -169,12 +170,25 @@ with open(filelist_2read, "r") as myfile:
 
            #masked_image = colorCopy & final_mask#cv2.bitwise_and(colorCopy, final_mask)
            #cv2.imshow("Image", masked_image)
-           colorCopy = cv2.imread(inputfile, 0)
-           final = colorCopy | outline_mask
-           colorCopy = cv2.imread(inputfile)
-           outline_mask=cv2.cvtColor(outline_mask,cv2.COLOR_GRAY2BGR)#change mask to a 3 channel image
-           mask_out=cv2.subtract(colorCopy, outline_mask)#,colorCopy)
-           cropVersion = cropBlack(mask_out)
+        #    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(final_mask)
+        #    print("File In Question: " + inputfile + "\n\n")
+        #    print("Min Val: " + str(min_val))
+        #    print("Max Val: " + str(max_val))
+        #    print("Min Loc: " + str(min_loc))
+        #    print("Max Loc: " + str(max_loc))
+        #    print("Size of outline_mask: " + str(outline_mask.shape))
+           h, w = colorCopy.shape[:2]
+
+           cropImage = colorCopy[70:710, 40:980] if( w > h) else colorCopy[23:(h-23),78:720]
+        #    cv2.imshow('cropped', cropImage)
+        #    cv2.imshow('original', colorCopy)
+        #    cv2.waitKey(0)
+        #    colorCopy = cv2.imread(inputfile, 0)
+        #    final = colorCopy | outline_mask
+        #    colorCopy = cv2.imread(inputfile)
+        #    outline_mask=cv2.cvtColor(outline_mask,cv2.COLOR_GRAY2BGR)#change mask to a 3 channel image
+        #    mask_out=cv2.subtract(colorCopy, outline_mask)#,colorCopy)
+        #    #cropVersion = cropBlack(mask_out)
            #mask_out=cv2.subtract(outline_mask,mask_out)
 
            #i, j = np.where(outline_mask)
@@ -182,15 +196,19 @@ with open(filelist_2read, "r") as myfile:
 
            #print("Shape of mask: " + str(final_mask.shape))
            #print("Shape of image: " + str(colorCopy.shape))
-           #cv2.imshow("MASK", cropVersion)
-           #cv2.waitKey(0)
+        #    cv2.imshow('mask_out', mask_out)
+        #    cv2.imshow('finale', final)
+        #    cv2.imshow('test', outline_mask)
+        #    cv2.imshow("MASK", cropVersion)
+        #    cv2.imshow('original', colorCopy)
+        #    cv2.waitKey(0)
            #write these out, incase, or for testing
            temp_file = 'MASKS/Mask_'+str(index)+'.txt'
            np.savetxt(temp_file,final_mask,fmt='%.2f')
            temp_file = 'MASKS/'+str(index)+'_mask_'+str(stryker_exists)+'.png'
            cv2.imwrite(temp_file,final_mask)
-           croppedImagePath = "CROPPED/cropped" + str(num) + ".png"
-           cv2.imwrite(croppedImagePath, cropVersion)
+           croppedImagePath = "CROPPED/cropped" + str(fcnt) + ".png"
+           cv2.imwrite(croppedImagePath, cropImage)
            num += 1
 
 

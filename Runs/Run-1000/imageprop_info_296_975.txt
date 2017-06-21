@@ -1,0 +1,6 @@
+item-#False#True#124.79#47.47
+item-#False#True#74.69#38.34
+item-#False#True#0.00#0.00
+item-#False#True#53.78#33.27
+item-#False#True#167.73#27.98
+item-#False#True#129.46#56.01
