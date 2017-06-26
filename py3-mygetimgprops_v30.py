@@ -3,7 +3,7 @@
 # /home/sandeeps/IARP/python-envs/iarp-python-2.7.10/bin/python mygetimgprops_v30.py > TESTpropslarge
 
 # ============================================================#
-import os, re, string
+import os, re, string, math
 import json
 import sys
 import time
@@ -178,7 +178,17 @@ with open(filelist_2read, "r") as myfile:
         #    print("Max Loc: " + str(max_loc))
         #    print("Size of outline_mask: " + str(outline_mask.shape))
            h, w = colorCopy.shape[:2]
+           src1 = cv2.imread(jf2use)
+           src1_mask=cv2.cvtColor(final_mask,cv2.COLOR_GRAY2BGR)#change mask to a 3 channel image
+           mask_out=cv2.subtract(src1_mask,src1)
+           mask_out=cv2.subtract(src1_mask,mask_out)
+           cv2.imshow('wtf', mask_out)
+           cv2.waitKey(0)
 
+           hsv = cv2.cvtColor(mask_out, cv2.COLOR_BGR2GRAY)
+           im2, contours, hierarchy = cv2.findContours(hsv[0], cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+           lines = cv2.HoughLines(hsv[0], 1, math.pi / 180, 50, 0, 0)
+           print(lines)
            cropImage = colorCopy[70:710, 40:980] if( w > h) else colorCopy[23:(h-23),78:720]
         #    cv2.imshow('cropped', cropImage)
         #    cv2.imshow('original', colorCopy)
