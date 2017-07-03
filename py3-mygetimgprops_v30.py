@@ -254,15 +254,23 @@ with open(filelist_2read, "r") as myfile:
            mask_out=cv2.subtract(src1_mask,mask_out)
            #cv2.imshow('wtf', mask_out)
            #cv2.waitKey(0)
+           dir_path = os.getcwd()
 
-           cv2.imwrite("wtf.png", mask_out)
-
+           cv2.imwrite("tmp.png", mask_out)
+           os.system('mv tmp.png /home/ronakshah/Github/darknet')
+           os.chdir("/home/ronakshah/Github/darknet")
+           #os.system('ls')
+           os.system("./darknet detect cfg/yolo.cfg yolo.weights tmp.png")
+           os.system("echo 'done'")
+           os.chdir(dir_path)
+           os.system("mv /home/ronakshah/Github/darknet/predictions.png RECOGNITION/recognition" + str(num) + ".png")
            hsv = cv2.cvtColor(mask_out, cv2.COLOR_BGR2GRAY)
            lines = cv2.HoughLines(hsv[0], 1, math.pi / 180, 50, 0, 0)
            im2, contours, hierarchy = cv2.findContours(hsv[0], cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
            #print(lines)
            cropImage = colorCopy[70:710, 40:980] if( w > h) else colorCopy[23:(h-23),78:720]
-           cropped = cropMask(mask_out)
+           cropped = mask_out.copy()
+           #cropped = cropMask(mask_out)
 
         #    cv2.imshow('cropped', cropImage)
         #    cv2.imshow('original', colorCopy)
