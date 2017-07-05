@@ -255,15 +255,16 @@ with open(filelist_2read, "r") as myfile:
            #cv2.imshow('wtf', mask_out)
            #cv2.waitKey(0)
            dir_path = os.getcwd()
-
+           path_to_darknet = "/home/ronakshah/Documents/SDSC/Extrctr/darknet"
            cv2.imwrite("tmp.png", mask_out)
-           os.system('mv tmp.png /home/ronakshah/Github/darknet')
-           os.chdir("/home/ronakshah/Github/darknet")
+           os.system(('mv tmp.png ' + path_to_darknet))
+
+           os.chdir(path_to_darknet)
            #os.system('ls')
            os.system("./darknet detect cfg/yolo.cfg yolo.weights tmp.png")
-           os.system("echo 'done'")
+           #os.system("echo 'done'")
            os.chdir(dir_path)
-           os.system("mv /home/ronakshah/Github/darknet/predictions.png RECOGNITION/recognition" + str(num) + ".png")
+           os.system("mv " + path_to_darknet + "/predictions.png RECOGNITION/recognition" + str(num) + ".png")
            hsv = cv2.cvtColor(mask_out, cv2.COLOR_BGR2GRAY)
            lines = cv2.HoughLines(hsv[0], 1, math.pi / 180, 50, 0, 0)
            im2, contours, hierarchy = cv2.findContours(hsv[0], cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
